@@ -201,6 +201,12 @@ export default class extends Component {
     this.autoplay()
   }
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.autoplay && this.props.autoplay) {
+      this.autoplay();
+    }
+  }
+
   componentWillUnmount () {
     this.autoplayTimer && clearTimeout(this.autoplayTimer)
     this.loopJumpTimer && clearTimeout(this.loopJumpTimer)
