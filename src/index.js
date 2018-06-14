@@ -135,10 +135,10 @@ export default class extends Component {
     autoplayTimeout: PropTypes.number,
     autoplayDirection: PropTypes.bool,
     index: PropTypes.number,
-    paginationStyle: View.propTypes.style,
+    paginationStyle: ViewPropTypes.style,
     renderPagination: PropTypes.func,
-    dotStyle: View.propTypes.style,
-    activeDotStyle: View.propTypes.style,
+    dotStyle: ViewPropTypes.style,
+    activeDotStyle: ViewPropTypes.style,
     dotColor: PropTypes.string,
     activeDotColor: PropTypes.string,
     /**
