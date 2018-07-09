@@ -118,6 +118,7 @@ export default class extends Component {
       PropTypes.number,
     ]),
     pagingEnabled: PropTypes.bool,
+    scrollEnabled: PropTypes.bool,
     showsHorizontalScrollIndicator: PropTypes.bool,
     showsVerticalScrollIndicator: PropTypes.bool,
     bounces: PropTypes.bool,
