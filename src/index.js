@@ -269,6 +269,9 @@ export default class extends Component {
       ? height * (initState.index+(this.props.loop?1:0))
       : width * (initState.index+(this.props.loop?1:0))
 
+    if (this.internals && this.internals.offset) {
+      this.internals.offset[initState.dir] = initState.offset[initState.dir];
+    }
 
     this.internals = {
       ...this.internals,
