@@ -145,6 +145,7 @@ export default class extends Component {
     /**
      * Called when the index has changed because the user swiped.
      */
+    internalIndexChanged: PropTypes.bool,
     onIndexChanged: PropTypes.func
   }
 
@@ -171,6 +172,7 @@ export default class extends Component {
     autoplay: false,
     autoplayTimeout: 2.5,
     autoplayDirection: true,
+    internalIndexChanged: true,
     index: 0,
     onIndexChanged: () => null
   }
@@ -216,7 +218,11 @@ export default class extends Component {
 
   componentWillUpdate (nextProps, nextState) {
     // If the index has changed, we notify the parent via the onIndexChanged callback
-    if (this.state.index !== nextState.index) this.props.onIndexChanged(nextState.index)
+    if (this.state.index !== nextState.index) {
+      if (this.props.internalIndexChanged || this.props.index===nextProps.index) {
+        this.props.onIndexChanged(nextState.index)
+      }
+    }
   }
 
   initState (props, updateIndex = false) {
