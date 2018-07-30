@@ -206,7 +206,7 @@ export default class extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.index!==undefined && this.state.index!==prevState.index) {
+    if (this.props.index!==undefined && this.props.index!==prevProps.index && this.state.index!==prevState.index) {
         this.scrollView.scrollTo({...this.state.offset, animated: false})
     }
 
