@@ -190,6 +190,12 @@ export default class extends Component {
   initialRender = true
 
   /**
+   * Initial render flag
+   * @type {bool}
+   */
+  initialAutoplay = true
+
+  /**
    * autoplay timer
    * @type {null}
    */
@@ -201,17 +207,21 @@ export default class extends Component {
     this.setState(this.initState(nextProps, nextProps.index!==undefined && this.props.index !== nextProps.index))
   }
 
-  componentDidMount () {
-    this.autoplay()
-  }
-
   componentDidUpdate(prevProps, prevState) {
     if (this.props.index!==undefined && this.props.index!==prevProps.index && this.state.index!==prevState.index) {
         this.scrollView.scrollTo({...this.state.offset, animated: false})
     }
 
-    if (!prevProps.autoplay && this.props.autoplay) {
-      this.autoplay();
+    if (this.props.autoplay) {
+      if (this.initialRender===false) {
+        if (this.initialAutoplay) {
+          this.initialAutoplay = false;
+          this.autoplay();
+
+        } else if (!prevProps.autoplay) {
+          this.autoplay();
+        }
+      }
     }
   }
 
@@ -314,10 +324,13 @@ export default class extends Component {
     // related to https://github.com/leecade/react-native-swiper/issues/570
     // contentOffset is not working in react 0.48.x so we need to use scrollTo
     // to emulate offset.
-    if (Platform.OS === 'ios') {
-      if (this.initialRender && this.state.total > 1) {
-        this.scrollView.scrollTo({...offset, animated: false})
+    if (this.initialRender) {
         this.initialRender = false;
+
+      if (Platform.OS === 'ios') {
+        if (this.state.total > 1) {
+          this.scrollView.scrollTo({...offset, animated: false})
+        }
       }
     }
 
