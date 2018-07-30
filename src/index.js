@@ -123,6 +123,7 @@ export default class extends Component {
     showsVerticalScrollIndicator: PropTypes.bool,
     bounces: PropTypes.bool,
     scrollsToTop: PropTypes.bool,
+    decelerationRate: PropTypes.number,
     removeClippedSubviews: PropTypes.bool,
     automaticallyAdjustContentInsets: PropTypes.bool,
     showsPagination: PropTypes.bool,
