@@ -174,7 +174,6 @@ export default class extends Component {
     autoplayTimeout: 2.5,
     autoplayDirection: true,
     internalIndexChanged: true,
-    index: 0,
     onIndexChanged: () => null
   }
 
@@ -199,14 +198,18 @@ export default class extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (!nextProps.autoplay && this.autoplayTimer) clearTimeout(this.autoplayTimer)
-    this.setState(this.initState(nextProps, this.props.index !== nextProps.index))
+    this.setState(this.initState(nextProps, nextProps.index!==undefined && this.props.index !== nextProps.index))
   }
 
   componentDidMount () {
     this.autoplay()
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.index!==undefined && this.state.index!==prevState.index) {
+        this.scrollView.scrollTo({...this.state.offset, animated: false})
+    }
+
     if (!prevProps.autoplay && this.props.autoplay) {
       this.autoplay();
     }
@@ -242,7 +245,7 @@ export default class extends Component {
       // retain the index
       initState.index = state.index
     } else {
-      initState.index = initState.total > 1 ? Math.min(props.index, initState.total - 1) : 0
+      initState.index = initState.total > 1 ? Math.min(props.index||0, initState.total - 1) : 0
     }
 
     // Default: horizontal
