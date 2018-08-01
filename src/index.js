@@ -147,7 +147,9 @@ export default class extends Component {
      * Called when the index has changed because the user swiped.
      */
     internalIndexChanged: PropTypes.bool,
-    onIndexChanged: PropTypes.func
+    onIndexChanged: PropTypes.func,
+    onSwipeBack: PropTypes.func,
+    onSwipeNext: PropTypes.func,
   }
 
   /**
@@ -174,7 +176,9 @@ export default class extends Component {
     autoplayTimeout: 2.5,
     autoplayDirection: true,
     internalIndexChanged: true,
-    onIndexChanged: () => null
+    onIndexChanged: () => null,
+    onSwipeBack: () => null,
+    onSwipeNext: () => null,
   }
 
   /**
@@ -235,6 +239,14 @@ export default class extends Component {
     if (this.state.index !== nextState.index) {
       if (this.props.internalIndexChanged || this.props.index===nextProps.index) {
         this.props.onIndexChanged(nextState.index)
+      }
+
+      if (this.state.index===nextState.index-1) {
+        this.props.onSwipeNext(nextState.index);
+      }
+
+      if (this.state.index===nextState.index+1) {
+        this.props.onSwipeBack(nextState.index);
       }
     }
   }
