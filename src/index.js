@@ -677,7 +677,8 @@ export default class extends Component {
           onScrollBeginDrag={this.onScrollBegin}
           onMomentumScrollEnd={this.onScrollEnd}
           onScrollEndDrag={this.onScrollEndDrag}
-          style={this.props.scrollViewStyle}>
+          style={this.props.scrollViewStyle}
+          keyboardShouldPersistTaps="handled">
           {pages}
         </ScrollView>
        )
