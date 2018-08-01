@@ -493,6 +493,15 @@ export default class extends Component {
     }
   }
 
+
+  scrollTo = (index, animated = true) => {
+    const scrollBy = index - (this.state.index - (this.props.loop ? 1 : 0));
+
+    if (scrollBy!==0) {
+      this.scrollBy(scrollBy, animated);
+    }
+  }
+
   /**
    * Scroll by index
    * @param  {number} index offset index
