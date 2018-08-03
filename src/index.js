@@ -205,6 +205,7 @@ export default class extends Component {
    */
   autoplayTimer = null
   loopJumpTimer = null
+  pendingScrollTo = null;
 
   componentWillReceiveProps (nextProps) {
     if (!nextProps.autoplay && this.autoplayTimer) clearTimeout(this.autoplayTimer)
@@ -213,7 +214,12 @@ export default class extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.index!==undefined && this.props.index!==prevProps.index && this.state.index!==prevState.index) {
-        this.scrollView.scrollTo({...this.state.offset, animated: false})
+      if (this.internals.isScrolling) {
+        this.pendingScrollTo = {...this.state.offset, animated: false}
+
+      } else {
+        this.scrollView.scrollTo({...this.state.offset, animated: false});
+      }
     }
 
     if (this.props.autoplay) {
@@ -407,6 +413,14 @@ export default class extends Component {
     }
 
     this.updateIndex(e.nativeEvent.contentOffset, this.state.dir, () => {
+      if (this.pendingScrollTo) {
+        if (this.scrollView) {
+          this.scrollView.scrollTo(this.pendingScrollTo);
+        }
+
+        this.pendingScrollTo = null;
+      }
+
       this.autoplay()
       this.loopJump()
 
