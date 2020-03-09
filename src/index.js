@@ -207,7 +207,7 @@ export default class extends Component {
   loopJumpTimer = null
   pendingScrollTo = null;
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     if (!nextProps.autoplay && this.autoplayTimer) clearTimeout(this.autoplayTimer)
     this.setState(this.initState(nextProps, nextProps.index!==undefined && this.props.index !== nextProps.index))
   }
@@ -240,7 +240,7 @@ export default class extends Component {
     this.loopJumpTimer && clearTimeout(this.loopJumpTimer)
   }
 
-  componentWillUpdate (nextProps, nextState) {
+  UNSAFE_componentWillUpdate (nextProps, nextState) {
     // If the index has changed, we notify the parent via the onIndexChanged callback
     if (this.state.index !== nextState.index) {
       if (this.props.internalIndexChanged || this.props.index===nextProps.index) {
