@@ -11,10 +11,12 @@ import {
   ScrollView,
   Dimensions,
   TouchableOpacity,
-  ViewPagerAndroid,
   Platform,
   ActivityIndicator
 } from 'react-native'
+
+import ViewPager from '@react-native-community/viewpager';
+
 
 /**
  * Default styles
@@ -217,7 +219,7 @@ export default class extends Component {
       if (this.internals.isScrolling) {
         this.pendingScrollTo = {...this.state.offset, animated: false}
 
-      } else {
+      } else if (Platform.OS === 'ios') {
         this.scrollView.scrollTo({...this.state.offset, animated: false});
       }
     }
@@ -415,7 +417,9 @@ export default class extends Component {
     this.updateIndex(e.nativeEvent.contentOffset, this.state.dir, () => {
       if (this.pendingScrollTo) {
         if (this.scrollView) {
-          this.scrollView.scrollTo(this.pendingScrollTo);
+          if (Platform.OS === 'ios') {
+            this.scrollView.scrollTo(this.pendingScrollTo);
+          }
         }
 
         this.pendingScrollTo = null;
@@ -707,14 +711,15 @@ export default class extends Component {
        )
     }
     return (
-      <ViewPagerAndroid ref={this.refScrollView}
+      <ViewPager ref={this.refScrollView}
         {...this.props}
         initialPage={this.props.loop ? this.state.index + 1 : this.state.index}
         onPageSelected={this.onScrollEnd}
         key={pages.length}
+        orientation={this.props.horizontal ? 'horizontal' : 'vertical'}
         style={[styles.wrapperAndroid, this.props.style]}>
         {pages}
-      </ViewPagerAndroid>
+      </ViewPager>
     )
   }
 
